@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+import { useState } from 'react';
+import { search } from './api';
+import SearchBar from './components/SearchBar';
+import ArticleList from './components/ArticleList';
+import logo from './wikipedia-logo.png'
+const App = () =>{
+  const [articles, setArticles] = useState([]);
+  const handleSearch = async(searchTerm) =>{
+    const results = await search(searchTerm);
+    setArticles(results);
+  }
+  return(
+    <>
+    <header>
+      <img src={logo}></img>
+      <h1>Wikipedia Search</h1>
+      <SearchBar onSearch={handleSearch}/>
+    </header>
+    <main id='searchResult'>
+      <ArticleList articles={articles}/>
+    </main>
+    </>
   );
-}
+
+};
+
+
+
+
+
+
+
+
+
 
 export default App;
